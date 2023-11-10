@@ -1,3 +1,16 @@
+
+<div align="center">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/4235424/282159275-8de9f991-40f8-49d0-8f1a-954c5375d114.png" height="300">
+
+  
+</div>
+
+<p align="center">
+<img src="https://img.shields.io/badge/Version-0.1.0-red" alt="Latest Release">
+<img src="https://img.shields.io/badge/Crossfilter2-1.5.2-yellow" alt="Crossfilter">
+<img src="https://img.shields.io/badge/D3-5.15-green" alt="D3JS">
+</p>
+
 # Data Dashboard Application
 
 ## Description
