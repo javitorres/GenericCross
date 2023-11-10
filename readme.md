@@ -1,54 +1,26 @@
-Ejemplo base:
+# Data Dashboard Application
 
-    https://dc-js.github.io/dc.js/
+## Description
+This data dashboard application provides dynamic and interactive visualization of various datasets. It utilizes technologies such as D3.js, Crossfilter.js, and DC.js to generate configurable charts that adapt to different types of data.
 
-    Explicacion:
-        https://dc-js.github.io/dc.js/docs/stock.html
+## Features
+- **Dynamic Configuration**: Charts are dynamically generated based on a JSON configuration, allowing great flexibility.
+- **Multiple Chart Types**: Supports various types of charts including bar charts, pie charts, and line charts.
+- **Interactivity**: Includes features like filters and the ability to reset each chart individually.
+- **Responsive Design**: Charts are organized in a responsive grid layout, adapting to different screen sizes.
 
-    Otro ejemplo:
-        https://drarmstr.github.io/chartcollection/examples/#worldbank
+## Technologies Used
+- D3.js
+- Crossfilter.js
+- DC.js
+- Bulma CSS
 
-    Mas ejemplos:
-        https://raw.githubusercontent.com/JaelB/
+## Run
 
-    Chat:
-        https://chat.openai.com/c/5c7e66d5-4886-459d-b34f-eb546d35b86b
+```
+node server.js
+```
 
-Arrancar:
-    node server.js
-    http://localhost:3000/generic
+And open this url in your browser:
 
-TODO:
-    Poder pasarle como parametro la configuración json de la gráfica:
-
-    {
-        "data": 'fichero o S3',
-        "charts":
-            [
-                {
-                    "title": "Por marca",
-                    "type": "cathegorical",
-                    "columnName": "marca"
-                },
-                {
-                    "title": "Por modelo",
-                    "type": "cathegorical",
-                    "columnName": "modelo"
-                },
-                {
-                    "title": "Por potencias",
-                    "type": "numeric",
-                    "columnName": "potencia"
-                },
-                {
-                    "title": "Por fecha",
-                    "type": "date",
-                    "columnName": "fecha"
-                }
-            ]
-    }
-        
-        
-
-
-
+http://localhost:3000/generic
