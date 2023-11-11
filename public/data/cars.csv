@@ -1,0 +1,57 @@
+fecha,marca,modelo,potencia,combustible
+2023-01-01,Toyota,Corolla,132 HP,Gasolina
+2023-01-02,Ford,Focus,160 HP,Gasolina
+2023-01-03,Honda,Civic,158 HP,Gasolina
+2023-01-04,Chevrolet,Cruze,153 HP,Diesel
+2023-01-05,BMW,Serie 3,255 HP,Gasolina
+2023-01-06,Audi,A4,201 HP,Gasolina
+2023-01-07,Mercedes-Benz,Clase C,255 HP,Gasolina
+2023-01-08,Volkswagen,Golf,147 HP,Gasolina
+2023-01-09,Hyundai,Elantra,147 HP,Gasolina
+2023-01-10,Kia,Forte,147 HP,Gasolina
+2023-01-11,Mazda,Mazda3,186 HP,Gasolina
+2023-01-12,Nissan,Sentra,149 HP,Gasolina
+2023-01-13,Subaru,Impreza,152 HP,Gasolina
+2023-01-14,Tesla,Model 3,283 HP,Eléctrico
+2023-01-15,Toyota,Camry,203 HP,Gasolina
+2023-01-16,Ford,Fusion,175 HP,Gasolina
+2023-01-17,Honda,Accord,192 HP,Gasolina
+2023-01-18,Chevrolet,Malibu,160 HP,Gasolina
+2023-01-19,Kia,Optima,185 HP,Gasolina
+2023-01-20,Hyundai,Sonata,191 HP,Gasolina
+2023-01-21,Audi,A6,261 HP,Gasolina
+2023-01-22,BMW,Serie 5,248 HP,Gasolina
+2023-01-23,Mercedes-Benz,Clase E,255 HP,Gasolina
+2023-01-24,Lexus,ES,203 HP,Gasolina
+2023-01-25,Jaguar,XE,247 HP,Gasolina
+2023-01-26,Volvo,S60,250 HP,Gasolina
+2023-01-27,Tesla,Model S,670 HP,Eléctrico
+2023-01-28,Porsche,Panamera,325 HP,Gasolina
+2023-01-29,Audi,A8,335 HP,Gasolina
+2023-01-30,BMW,Serie 7,335 HP,Gasolina
+2023-01-31,Mercedes-Benz,Clase S,429 HP,Gasolina
+2023-02-01,Lexus,LS,416 HP,Gasolina
+2023-02-02,Jaguar,XJ,340 HP,Gasolina
+2023-02-03,Volvo,S90,250 HP,Gasolina
+2023-02-04,Tesla,Model X,1020 HP,Eléctrico
+2023-02-05,Porsche,Cayenne,335 HP,Gasolina
+2023-02-06,Audi,Q5,261 HP,Gasolina
+2023-02-07,BMW,X3,248 HP,Gasolina
+2023-02-08,Mercedes-Benz,GLC,255 HP,Gasolina
+2023-02-09,Lexus,RX,295 HP,Gasolina
+2023-02-10,Volvo,XC60,250 HP,Gasolina
+2023-02-11,Jaguar,F-Pace,247 HP,Gasolina
+2023-02-12,Tesla,Model Y,384 HP,Eléctrico
+2023-02-13,Porsche,Macan,248 HP,Gasolina
+2023-02-14,Audi,Q7,248 HP,Gasolina
+2023-02-15,BMW,X5,335 HP,Gasolina
+2023-02-16,Mercedes-Benz,GLE,255 HP,Gasolina
+2023-02-17,Lexus,GX,301 HP,Gasolina
+2023-02-18,Volvo,XC90,250 HP,Gasolina
+2023-02-19,Jaguar,E-Pace,246 HP,Gasolina
+2023-02-20,Ford,Escape,181 HP,Gasolina
+2023-02-21,Honda,CR-V,190 HP,Gasolina
+2023-02-22,Toyota,RAV4,203 HP,Gasolina
+2023-02-23,Chevrolet,Equinox,170 HP,Gasolina
+2023-02-24,Jeep,Cherokee,180 HP,Gasolina
+2023-02-25,Subaru,Forester,182 HP,Gasolina

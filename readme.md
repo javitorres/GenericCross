@@ -39,4 +39,4 @@ node server.js
 
 And open this url in your browser:
 
-http://localhost:3000/generic
+http://localhost:3000
