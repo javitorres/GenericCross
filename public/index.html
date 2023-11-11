@@ -4,33 +4,164 @@
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.2.1/dc.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.5.2/crossfilter.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.2.1/dc.min.js"></script>
-    <style>
-        .reset-link {
-            margin-top: 10px;
-            display: none;
-        }
-        .chart-container {
-            padding: 20px;
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar is-primary">
-    <div class="navbar-brand">
-        <h1 class="navbar-item title is-4">Dashboard</h1>
-    </div>
-</nav>
 
-<div class="section">
-    <div class="container" id="charts-container">
-        <!-- Los gráficos se generarán dinámicamente aquí -->
-        
+</head>
+    <body>
+    <nav class="navbar is-primary">
+        <div class="navbar-brand">
+            <h1 class="navbar-item title is-4">Dashboard</h1>
+        </div>
+    </nav>
+
+    
+
+    <div class="section">
+        <div class="container" id="charts-container">
+            <!-- Los gráficos se generarán dinámicamente aquí -->
+            
+        </div>
     </div>
-</div>
-<script src="js/genericCross.js"></script> 
-</body>
+
+    <h2>Select a Dashboard:</h2>
+
+
+    <button id="carsReport">Cars report</button>
+    <BR>
+    <button id="irisReport">Iris report</button>
+    <BR>
+    <button id="catReport">CAT</button>
+
+    <script>
+        document.getElementById('carsReport').addEventListener('click', function() {
+            config={
+                "data": "data/cars.csv",
+                "charts": [
+                    {
+                        "title": "Por marca",
+                        "type": "categorical",
+                        "columnName": "marca"
+                    },
+                    {
+                        "title": "Por modelo",
+                        "type": "categorical",
+                        "columnName": "modelo"
+                    },
+                    {
+                        "title": "Por potencias",
+                        "type": "numerical",
+                        "columnName": "potencia"
+                    },
+                    {
+                        "title": "Por fecha",
+                        "type": "date",
+                        "columnName": "fecha"
+                    },
+                    {
+                        "title": "Por combustible",
+                        "type": "categorical",
+                        "columnName": "combustible"
+                    }
+                ]
+            }
+            saveConfigAndRedirect(config);
+        });
+
+        document.getElementById('irisReport').addEventListener('click', function() {
+            config = {
+                "data": "data/iris.csv",
+                "charts": [
+                    {
+                        "title": "Species",
+                        "type": "categorical",
+                        "columnName": "species"
+                    },
+                    {
+                        "title": "Sepal length",
+                        "type": "numerical",
+                        "columnName": "sepal_length"
+                    },
+                    {
+                        "title": "Sepal width",
+                        "type": "numerical",
+                        "columnName": "sepal_width"
+                    },
+                    {
+                        "title": "Petal length",
+                        "type": "numerical",
+                        "columnName": "petal_length"
+                    },
+                    {
+                        "title": "Petal width",
+                        "type": "numerical",
+                        "columnName": "petal_width"
+                    }
+                    
+                ]
+            }
+                saveConfigAndRedirect(config);
+        });
+
+        document.getElementById('irisReport').addEventListener('click', function() {
+            config = {
+                "data": "data/iris.csv",
+                "charts": [
+                    {
+                        "title": "Species",
+                        "type": "categorical",
+                        "columnName": "species"
+                    },
+                    {
+                        "title": "Sepal length",
+                        "type": "numerical",
+                        "columnName": "sepal_length"
+                    },
+                    {
+                        "title": "Sepal width",
+                        "type": "numerical",
+                        "columnName": "sepal_width"
+                    },
+                    {
+                        "title": "Petal length",
+                        "type": "numerical",
+                        "columnName": "petal_length"
+                    },
+                    {
+                        "title": "Petal width",
+                        "type": "numerical",
+                        "columnName": "petal_width"
+                    }
+                    
+                ]
+            }
+                saveConfigAndRedirect(config);
+        });
+
+        document.getElementById('catReport').addEventListener('click', function() {
+            config = {
+                "data": "data/me/cat.csv",
+                "charts": [
+                    {
+                        "title": "tipovivienda",
+                        "type": "categorical",
+                        "columnName": "Tipologia"
+                    },
+                    {
+                        "title": "Superficie construida",
+                        "type": "numerical",
+                        "columnName": "supconst"
+                    }
+                    
+                ]
+            }
+                saveConfigAndRedirect(config);
+        });
+
+        function saveConfigAndRedirect(config) {
+            localStorage.setItem('dashboardConfig', JSON.stringify(config));
+            window.location.href = 'genericCross.html';
+        }
+    </script>
+    </body>
 </html>
+
+

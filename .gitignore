@@ -2,3 +2,4 @@ node_modules/
 package-lock.json
 me/
 public/me/
+public/data/me

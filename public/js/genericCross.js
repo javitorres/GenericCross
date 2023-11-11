@@ -1,33 +1,4 @@
-var config = {
-    "data": "data/cars.csv",
-    "charts": [
-        {
-            "title": "Por marca",
-            "type": "categorical",
-            "columnName": "marca"
-        },
-        {
-            "title": "Por modelo",
-            "type": "categorical",
-            "columnName": "modelo"
-        },
-        {
-            "title": "Por potencias",
-            "type": "numerical",
-            "columnName": "potencia"
-        },
-        {
-            "title": "Por fecha",
-            "type": "date",
-            "columnName": "fecha"
-        },
-        {
-            "title": "Por combustible",
-            "type": "categorical",
-            "columnName": "combustible"
-        }
-    ]
-};
+
 
 function createChartContainer(chartConfig, index) {
     var elementId = 'chart-' + chartConfig.columnName;
@@ -91,25 +62,26 @@ function resetChart(elementId) {
         dc.redrawAll();
     }
 }
-
-d3.csv(config.data).then((data) => {
-    data.forEach(function (d) {
-        config.charts.forEach(function (chartConfig) {
-            if (chartConfig.type === 'date') {
-                d[chartConfig.columnName] = new Date(d[chartConfig.columnName]);
-            } else if (chartConfig.type === 'numerical') {
-                d[chartConfig.columnName] = +d[chartConfig.columnName];
-            }
+function initializeDashboard(config) {
+    d3.csv(config.data).then((data) => {
+        data.forEach(function (d) {
+            config.charts.forEach(function (chartConfig) {
+                if (chartConfig.type === 'date') {
+                    d[chartConfig.columnName] = new Date(d[chartConfig.columnName]);
+                } else if (chartConfig.type === 'numerical') {
+                    d[chartConfig.columnName] = +d[chartConfig.columnName];
+                }
+            });
         });
-    });
 
-    var ndx = crossfilter(data);
-    var charts = config.charts.map((chartConfig, index) => {
-        var elementId = createChartContainer(chartConfig, index);
-        var dimension = ndx.dimension(dc.pluck(chartConfig.columnName));
-        var group = dimension.group().reduceCount();
-        return generateChart(chartConfig, dimension, group, elementId);
-    });
+        var ndx = crossfilter(data);
+        var charts = config.charts.map((chartConfig, index) => {
+            var elementId = createChartContainer(chartConfig, index);
+            var dimension = ndx.dimension(dc.pluck(chartConfig.columnName));
+            var group = dimension.group().reduceCount();
+            return generateChart(chartConfig, dimension, group, elementId);
+        });
 
-    dc.renderAll();
-});
+        dc.renderAll();
+    });
+}

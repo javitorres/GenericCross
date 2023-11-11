@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.2.1/dc.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.5.2/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.2.1/dc.min.js"></script>
+    <style>
+        .reset-link {
+            margin-top: 10px;
+            display: none;
+        }
+        .chart-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+    <body>
+    <nav class="navbar is-primary">
+        <div class="navbar-brand">
+            <h1 class="navbar-item title is-4">Dashboard</h1>
+        </div>
+    </nav>
+
+    <BR>
+    <a href="index.html" class="button is-primary">Volver</a>
+
+    <div class="section">
+        <div class="container" id="charts-container">
+            <!-- Los gráficos se generarán dinámicamente aquí -->
+            
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            var config = JSON.parse(localStorage.getItem('dashboardConfig'));
+            
+            if (config) {
+                initializeDashboard(config); 
+            }
+        };
+    </script>
+    <script src="js/genericCross.js"></script> 
+
+    </body>
+</html>
