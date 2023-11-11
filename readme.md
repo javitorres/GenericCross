@@ -16,7 +16,9 @@
 ## Description
 This data dashboard application provides dynamic and interactive visualization of various datasets. It utilizes technologies such as D3.js, Crossfilter.js, and DC.js to generate configurable charts that adapt to different types of data.
 
-![image](https://github.com/javitorres/GenericCross/assets/4235424/373066f0-eac6-4d7f-a185-5eb1864b9a11)
+![image](https://github.com/javitorres/GenericCross/assets/4235424/aac77d96-3b3f-4bee-9df2-4e29571ec025)
+
+![image](https://github.com/javitorres/GenericCross/assets/4235424/e38d0ee4-5af9-4baf-b0fb-7062663b38f5)
 
 
 ## Features
