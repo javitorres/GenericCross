@@ -6,6 +6,24 @@ function createChartContainer(chartConfig, index) {
     container.className = 'chart-container column is-half';
     container.id = elementId;
 
+    // Crear el contenedor principal del gráfico
+    var container = document.createElement('div');
+    container.className = 'chart-container column is-half';
+    container.id = elementId;
+
+    // Crear el encabezado del gráfico
+    var header = document.createElement('header');
+    header.className = 'card-header';
+
+    // Crear el título del gráfico
+    var title = document.createElement('p');
+    title.className = 'card-header-title';
+    title.innerText = chartConfig.title;
+
+    // Añadir el título al encabezado y el encabezado al contenedor
+    header.appendChild(title);
+    container.appendChild(header);
+
     if (index % 2 === 0) {
         var row = document.createElement('div');
         row.className = 'columns';
@@ -62,6 +80,48 @@ function resetChart(elementId) {
         dc.redrawAll();
     }
 }
+
+function createDataTable(ndx, config) {
+    var dataTable = dc.dataTable("#data-table");
+    var allDim = ndx.dimension(d => d);
+
+    var columns = config.charts.map(chartConfig => {
+        return {
+            label: chartConfig.columnName,
+            format: d => d[chartConfig.columnName]
+        };
+    });
+
+    dataTable
+        .dimension(allDim)
+        .columns(columns)
+        .sortBy(d => d[columns[0].label]) // Ordenar por la primera columna como predeterminado
+        .order(d3.ascending)
+        .on('renderlet', function(table) {
+            // Añadir evento click a cada cabecera para controlar la ordenación
+            table.selectAll('.dc-table th')
+                .on('click', function(d) {
+                    var column = d.label;
+                    if (dataTable.order() === d3.ascending) {
+                        dataTable.order(d3.descending);
+                    } else {
+                        dataTable.order(d3.ascending);
+                    }
+                    dataTable.sortBy(d => d[column]);
+                    dataTable.redraw();
+                });
+                table.selectAll('.dc-table').classed('dc-table', true);
+        });
+
+        // Intenta aplicar la clase directamente después de que dc.js renderiza la tabla
+        setTimeout(function() {
+            d3.selectAll('#data-table .dc-data-table').classed('dc-table', true);
+        }, 0);
+
+    return dataTable;
+}
+
+
 function initializeDashboard(config) {
     d3.csv(config.data).then((data) => {
         data.forEach(function (d) {
@@ -81,6 +141,8 @@ function initializeDashboard(config) {
             var group = dimension.group().reduceCount();
             return generateChart(chartConfig, dimension, group, elementId);
         });
+
+        var dataTable = createDataTable(ndx, config);
 
         dc.renderAll();
     });

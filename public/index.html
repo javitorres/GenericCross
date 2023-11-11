@@ -13,8 +13,6 @@
         </div>
     </nav>
 
-    
-
     <div class="section">
         <div class="container" id="charts-container">
             <!-- Los gráficos se generarán dinámicamente aquí -->
@@ -23,8 +21,6 @@
     </div>
 
     <h2>Select a Dashboard:</h2>
-
-
     <button id="carsReport">Cars report</button>
     <BR>
     <button id="irisReport">Iris report</button>
@@ -64,41 +60,6 @@
                 ]
             }
             saveConfigAndRedirect(config);
-        });
-
-        document.getElementById('irisReport').addEventListener('click', function() {
-            config = {
-                "data": "data/iris.csv",
-                "charts": [
-                    {
-                        "title": "Species",
-                        "type": "categorical",
-                        "columnName": "species"
-                    },
-                    {
-                        "title": "Sepal length",
-                        "type": "numerical",
-                        "columnName": "sepal_length"
-                    },
-                    {
-                        "title": "Sepal width",
-                        "type": "numerical",
-                        "columnName": "sepal_width"
-                    },
-                    {
-                        "title": "Petal length",
-                        "type": "numerical",
-                        "columnName": "petal_length"
-                    },
-                    {
-                        "title": "Petal width",
-                        "type": "numerical",
-                        "columnName": "petal_width"
-                    }
-                    
-                ]
-            }
-                saveConfigAndRedirect(config);
         });
 
         document.getElementById('irisReport').addEventListener('click', function() {

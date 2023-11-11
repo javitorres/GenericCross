@@ -1,0 +1,15 @@
+/* Estilos adicionales para la tabla */
+.dc-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.dc-table th, .dc-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.dc-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+    cursor: pointer;
+}
+.dc-table tr:nth-child(even) {background-color: #f9f9f9;}
