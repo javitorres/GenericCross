@@ -9,6 +9,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.5.2/crossfilter.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.2.1/dc.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  
     <style>
         .reset-link {
             margin-top: 10px;
@@ -27,7 +30,19 @@
     </nav>
 
     <BR>
-    <a href="index.html" class="button is-primary">Volver</a>
+    <a href="index.html" class="button is-primary"><- Back</a>
+
+    <div class="container">
+        <div id="filters-summary" class="content">
+            <h3>Filtros Aplicados:</h3>
+            <ul id="filters-list"></ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <button id="reset-all" class="button is-primary">Reset All Filters</button>
+    </div>
+
 
     <div class="section">
         <div class="container" id="charts-container">
@@ -35,6 +50,15 @@
             
         </div>
     </div>
+
+    <!--
+    <div class="section">
+        <div class="container">
+            <div id="map" style="height: 400px;"></div>
+        </div>
+    </div>
+    -->
+    
 
     <!-- Data table -->
     <div class="section">
@@ -53,6 +77,8 @@
             if (config) {
                 initializeDashboard(config); 
             }
+
+            updateFiltersSummary();
         };
     </script>
     <script src="js/genericCross.js"></script> 

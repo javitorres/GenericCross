@@ -33,27 +33,27 @@
                 "data": "data/cars.csv",
                 "charts": [
                     {
-                        "title": "Por marca",
+                        "title": "Brands",
                         "type": "categorical",
                         "columnName": "marca"
                     },
                     {
-                        "title": "Por modelo",
+                        "title": "Models",
                         "type": "categorical",
                         "columnName": "modelo"
                     },
                     {
-                        "title": "Por potencias",
+                        "title": "Power",
                         "type": "numerical",
                         "columnName": "potencia"
                     },
                     {
-                        "title": "Por fecha",
+                        "title": "Date",
                         "type": "date",
                         "columnName": "fecha"
                     },
                     {
-                        "title": "Por combustible",
+                        "title": "Fuel type",
                         "type": "categorical",
                         "columnName": "combustible"
                     }
@@ -91,7 +91,13 @@
                         "type": "numerical",
                         "columnName": "petal_width"
                     }
-                    
+                ],
+                "relations": [
+                    { 
+                        "title": "Relation between width and legth",
+                        "fields": ["sepal_width", "sepal_length"],
+                        "chartType": "scatter"
+                    }
                 ]
             }
                 saveConfigAndRedirect(config);
@@ -99,17 +105,27 @@
 
         document.getElementById('catReport').addEventListener('click', function() {
             config = {
-                "data": "data/me/cat.csv",
+                "data": "data/me/catMini.csv",
                 "charts": [
                     {
-                        "title": "tipovivienda",
+                        "title": "Tipo vivienda",
                         "type": "categorical",
-                        "columnName": "Tipologia"
+                        "columnName": "tipo_vivienda"
                     },
                     {
                         "title": "Superficie construida",
                         "type": "numerical",
                         "columnName": "supconst"
+                    },
+                    {
+                        "title": "Año construccion",
+                        "type": "date",
+                        "columnName": "anyoconst"
+                    },
+                    {
+                        "title": "Provincia",
+                        "type": "numerical",
+                        "columnName": "codproine"
                     }
                     
                 ]
