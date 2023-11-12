@@ -1,4 +1,4 @@
-function createChartContainer(title, identifier, index) {
+function createChartContainer(title, identifier, index, type) {
     var elementId = 'chart-' + (Array.isArray(identifier) ? identifier.join("-") : identifier);
     var container = document.createElement('div');
     container.className = 'chart-container column is-half';
@@ -11,6 +11,29 @@ function createChartContainer(title, identifier, index) {
     titleElement.innerText = title;
     header.appendChild(titleElement);
     container.appendChild(header);
+
+    if (type === 'numerical') {
+
+        // Crear y añadir el contenedor de entradas para el rango mínimo y máximo
+        var rangeContainer = document.createElement('div');
+        rangeContainer.className = 'range-container';
+
+        var minInput = document.createElement('input');
+        minInput.type = 'number';
+        minInput.className = 'input is-small';
+        minInput.placeholder = 'Min';
+        minInput.onchange = function() { setChartDomain(elementId, 'min', minInput.value); };
+
+        var maxInput = document.createElement('input');
+        maxInput.type = 'number';
+        maxInput.className = 'input is-small';
+        maxInput.placeholder = 'Max';
+        maxInput.onchange = function() { setChartDomain(elementId, 'max', maxInput.value); };
+
+        rangeContainer.appendChild(minInput);
+        rangeContainer.appendChild(maxInput);
+        container.appendChild(rangeContainer);
+    }
 
     if (index % 2 === 0) {
         var row = document.createElement('div');
@@ -25,18 +48,46 @@ function createChartContainer(title, identifier, index) {
     return elementId;
 }
 
-function generateChart(chartConfig, dimension, group, index) {
-    var elementId = createChartContainer(chartConfig.title, chartConfig.columnName, index);
-    var chart;
+function setChartDomain(chartId, type, value) {
+    var chart = dc.chartRegistry.list().filter(c => c.anchor() === '#' + chartId)[0];
+    if (!chart) return;
 
+    var domain = chart.x().domain();
+    var newValue = parseFloat(value);
+
+    // Asegúrate de que el valor sea un número válido antes de actualizar
+    if (isNaN(newValue)) return;
+
+    if (type === 'min' && newValue < domain[1]) {
+        chart.x().domain([newValue, domain[1]]);
+    } else if (type === 'max' && newValue > domain[0]) {
+        chart.x().domain([domain[0], newValue]);
+    } else {
+        // No actualices si el mínimo es mayor que el máximo o viceversa
+        return;
+    }
+
+    // Reajusta el eje si es necesario
+    chart.rescale();
+    chart.redraw();
+}
+
+
+function generateChart(chartConfig, dimension, group, index) {
+    var elementId = createChartContainer(chartConfig.title, chartConfig.columnName, index,  chartConfig.type);
+    var chart;
+    // set reasonableMaxValue to mean + (5 * standard deviation) for numerical charts
+    //var reasonableMaxValue = chartConfig.type === 'numerical' ? d3.mean(group.all(), d => d.value) + (5 * d3.deviation(group.all(), d => d.value)) : d3.max(group.all(), d => d.key);
+    var reasonableMaxValue = d3.max(group.all(), d => d.key);
+    
+    console.log(chartConfig.columnName + ': ' + reasonableMaxValue);
     switch (chartConfig.type) {
         case 'numerical':
             chart = dc.barChart('#' + elementId)
                 .dimension(dimension)
                 .group(group)
-                .x(d3.scaleLinear().domain([0, d3.max(group.all(), d => d.key)]))
-                .elasticY(true)
-                .elasticX(true);
+                .x(d3.scaleLinear().domain([0, reasonableMaxValue]))
+                .elasticY(true);
             break;
         case 'categorical':
             chart = dc.pieChart('#' + elementId)
@@ -48,8 +99,7 @@ function generateChart(chartConfig, dimension, group, index) {
                 .dimension(dimension)
                 .group(group)
                 .x(d3.scaleTime().domain(d3.extent(group.all(), d => d.key)))
-                .elasticY(true)
-                .elasticX(true);
+                .elasticY(true);
             break;
         default:
             throw new Error('Tipo no soportado');
