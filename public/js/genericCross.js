@@ -73,14 +73,16 @@ function setChartDomain(chartId, type, value) {
 }
 
 
-function generateChart(chartConfig, dimension, group, index) {
-    var elementId = createChartContainer(chartConfig.title, chartConfig.columnName, index,  chartConfig.type);
+function generateChart(crossFilterData, chartConfig, index, data) {
+    var elementId = createChartContainer(chartConfig.title, chartConfig.fields, index,  chartConfig.type);
     var chart;
-    // set reasonableMaxValue to mean + (5 * standard deviation) for numerical charts
-    //var reasonableMaxValue = chartConfig.type === 'numerical' ? d3.mean(group.all(), d => d.value) + (5 * d3.deviation(group.all(), d => d.value)) : d3.max(group.all(), d => d.key);
+    
+    dimension = crossFilterData.dimension(dc.pluck(chartConfig.fields));
+    group =     crossFilterData.dimension(dc.pluck(chartConfig.fields)).group().reduceCount();
+
     var reasonableMaxValue = d3.max(group.all(), d => d.key);
     
-    console.log(chartConfig.columnName + ': ' + reasonableMaxValue);
+    console.log(chartConfig.fields + ': ' + reasonableMaxValue);
     switch (chartConfig.type) {
         case 'numerical':
             chart = dc.barChart('#' + elementId)
@@ -99,6 +101,54 @@ function generateChart(chartConfig, dimension, group, index) {
                 .dimension(dimension)
                 .group(group)
                 .x(d3.scaleTime().domain(d3.extent(group.all(), d => d.key)))
+                .elasticY(true);
+            break;
+        case 'bubble':
+            chart = dc.bubbleChart('#' + elementId);
+
+            if (chartConfig.fields.length < 3) {
+                console.error("Bubble chart necesita al menos 3 campos en 'fields': x, y, y tamaño de la burbuja");
+                return;
+            }
+
+            dimension = crossFilterData.dimension(function (d) {
+                return [d[chartConfig.fields[0]], d[chartConfig.fields[1]], d[chartConfig.fields[2]]];
+            });
+
+            group = dimension.group().reduce(
+                // reduceAdd
+                function (p, v) {
+                    p.count++;
+                    p.size += v[chartConfig.fields[2]];
+                    return p;
+                },
+                // reduceRemove
+                function (p, v) {
+                    p.count--;
+                    p.size -= v[chartConfig.fields[2]];
+                    return p;
+                },
+                // reduceInitial
+                function () {
+                    return { count: 0, size: 0 };
+                }
+            );
+
+            var maxBubbleSize = d3.max(data, d => d[chartConfig.fields[2]]);
+            var minBubbleSize = d3.min(data, d => d[chartConfig.fields[2]]);
+            var bubbleScale = d3.scaleSqrt().domain([minBubbleSize, maxBubbleSize]).range([1, 50]); // Ajusta el rango según sea necesario
+
+
+            chart
+                .dimension(dimension)
+                .group(group)
+                .keyAccessor(d => d.key[0])
+                .valueAccessor(d => d.key[1])
+                .radiusValueAccessor(d => bubbleScale(d.value.size))
+                .x(d3.scaleLinear().domain(d3.extent(data, d => d[chartConfig.fields[0]])))
+                .y(d3.scaleLinear().domain(d3.extent(data, d => d[chartConfig.fields[1]])))
+                .r(d3.scaleLinear().domain([0, d3.max(data, d => d[chartConfig.fields[2]])]))
+                .elasticX(true)
                 .elasticY(true);
             break;
         default:
@@ -156,8 +206,8 @@ function createDataTable(crossFilterData, config) {
 
     var columns = config.charts.map(chartConfig => {
         return {
-            label: chartConfig.columnName,
-            format: d => d[chartConfig.columnName]
+            label: chartConfig.fields,
+            format: d => d[chartConfig.fields]
         };
     });
 
@@ -224,26 +274,31 @@ function createRelationChart(relationConfig, crossFilterData, index, data) {
     return chart;
 }
 
+
 function initializeDashboard(config) {
     d3.csv(config.data).then((data) => {
         data.forEach(function (d) {
             config.charts.forEach(function (chartConfig) {
                 if (chartConfig.type === 'date') {
-                    d[chartConfig.columnName] = new Date(d[chartConfig.columnName]);
+                    d[chartConfig.fields] = new Date(d[chartConfig.fields]);
                 } else if (chartConfig.type === 'numerical') {
-                    d[chartConfig.columnName] = +d[chartConfig.columnName];
+                    // Convertir a número
+                    d[chartConfig.fields] = +d[chartConfig.fields];
                 }
             });
         });
 
         var crossFilterData = crossfilter(data);
         var charts = config.charts.map((chartConfig, index) => {
-            return generateChart(chartConfig, crossFilterData.dimension(dc.pluck(chartConfig.columnName)), crossFilterData.dimension(dc.pluck(chartConfig.columnName)).group().reduceCount(), index);
+            return generateChart(crossFilterData, chartConfig, index, data);
         });
 
         if (config.relations) {
             config.relations.forEach((relationConfig, index) => {
-                createRelationChart(relationConfig, crossFilterData, charts.length + index, data);
+                createRelationChart(relationConfig, 
+                    crossFilterData, 
+                    charts.length + index, 
+                    data);
             });
         }
 

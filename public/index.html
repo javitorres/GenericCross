@@ -35,27 +35,27 @@
                     {
                         "title": "Brands",
                         "type": "categorical",
-                        "columnName": "marca"
+                        "fields": "marca"
                     },
                     {
                         "title": "Models",
                         "type": "categorical",
-                        "columnName": "modelo"
+                        "fields": "modelo"
                     },
                     {
                         "title": "Power",
                         "type": "numerical",
-                        "columnName": "potencia"
+                        "fields": "potencia"
                     },
                     {
                         "title": "Date",
                         "type": "date",
-                        "columnName": "fecha"
+                        "fields": "fecha"
                     },
                     {
                         "title": "Fuel type",
                         "type": "categorical",
-                        "columnName": "combustible"
+                        "fields": "combustible"
                     }
                 ]
             }
@@ -69,27 +69,33 @@
                     {
                         "title": "Species",
                         "type": "categorical",
-                        "columnName": "species"
+                        "fields": "species"
                     },
                     {
                         "title": "Sepal length",
                         "type": "numerical",
-                        "columnName": "sepal_length"
+                        "fields": "sepal_length"
                     },
                     {
                         "title": "Sepal width",
                         "type": "numerical",
-                        "columnName": "sepal_width"
+                        "fields": "sepal_width"
                     },
                     {
                         "title": "Petal length",
                         "type": "numerical",
-                        "columnName": "petal_length"
+                        "fields": "petal_length"
                     },
                     {
                         "title": "Petal width",
                         "type": "numerical",
-                        "columnName": "petal_width"
+                        "fields": "petal_width"
+                    },
+                    { 
+                        "title": "Relation between sepal width, sepal length and petal length",
+                        "type": "bubble",
+                        "fields": ["sepal_width", "sepal_length", "petal_length"]
+                        
                     }
                 ],
                 "relations": [
@@ -98,6 +104,7 @@
                         "fields": ["sepal_width", "sepal_length"],
                         "chartType": "scatter"
                     }
+                    
                 ]
             }
                 saveConfigAndRedirect(config);
@@ -110,22 +117,22 @@
                     {
                         "title": "Tipo vivienda",
                         "type": "categorical",
-                        "columnName": "tipo_vivienda"
+                        "fields": "tipo_vivienda"
                     },
                     {
                         "title": "Superficie construida",
                         "type": "numerical",
-                        "columnName": "supconst"
+                        "fields": "supconst"
                     },
                     {
                         "title": "Año construccion",
                         "type": "date",
-                        "columnName": "anyoconst"
+                        "fields": "anyoconst"
                     },
                     {
                         "title": "Provincia",
                         "type": "numerical",
-                        "columnName": "codproine"
+                        "fields": "codproine"
                     }
                     
                 ]
