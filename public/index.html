@@ -26,6 +26,8 @@
     <button id="irisReport">Iris report</button>
     <BR>
     <button id="catReport">CAT</button>
+    <BR>
+    <button id="carModels">Car models</button>
 
     <script>
         document.getElementById('carsReport').addEventListener('click', function() {
@@ -77,11 +79,6 @@
                         "fields": "sepal_length"
                     },
                     {
-                        "title": "Sepal width",
-                        "type": "numerical",
-                        "fields": "sepal_width"
-                    },
-                    {
                         "title": "Petal length",
                         "type": "numerical",
                         "fields": "petal_length"
@@ -94,17 +91,14 @@
                     { 
                         "title": "Relation between sepal width, sepal length and petal length",
                         "type": "bubble",
-                        "fields": ["sepal_width", "sepal_length", "petal_length"]
-                        
-                    }
-                ],
-                "relations": [
+                        "fields": ["sepal_width", "sepal_length", "petal_length"],
+                        "maxBubbleSize": 1
+                    },
                     { 
                         "title": "Relation between width and length",
+                        "type": "scatter",
                         "fields": ["sepal_width", "sepal_length"],
-                        "chartType": "scatter"
-                    }
-                    
+                    }    
                 ]
             }
                 saveConfigAndRedirect(config);
@@ -133,6 +127,56 @@
                         "title": "Provincia",
                         "type": "numerical",
                         "fields": "codproine"
+                    }
+                    
+                ]
+            }
+                saveConfigAndRedirect(config);
+        });
+
+        document.getElementById('carModels').addEventListener('click', function() {
+            config = {
+                "data": "data/me/modelos_coches2.csv",
+                "charts": [
+                    {
+                        "title": "Marca",
+                        "type": "categorical",
+                        "fields": "marca"
+                    },
+                    {
+                        "title": "modelo",
+                        "type": "categorical",
+                        "fields": "modelo"
+                    },
+                    {
+                        "title": "potencia_cv",
+                        "type": "numerical",
+                        "fields": "potencia_cv"
+                    },
+                    {
+                        "title": "tipo_combustible",
+                        "type": "categorical",
+                        "fields": "tipo_combustible"
+                    },
+                    {
+                        "title": "carroceria_boe",
+                        "type": "categorical",
+                        "fields": "carroceria_boe"
+                    },
+                    {
+                        "title": "consumo_mixto_min",
+                        "type": "numerical",
+                        "fields": "consumo_mixto_min"
+                    },
+                    {
+                        "title": "consumo_ciclo",
+                        "type": "categorical",
+                        "fields": "consumo_ciclo"
+                    },
+                    {
+                        "title": "consumo_unit",
+                        "type": "categorical",
+                        "fields": "consumo_unit"
                     }
                     
                 ]

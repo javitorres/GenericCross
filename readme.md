@@ -16,7 +16,50 @@
 ## Description
 This data dashboard application provides dynamic and interactive visualization of various datasets. It utilizes technologies such as D3.js, Crossfilter.js, and DC.js to generate configurable charts that adapt to different types of data.
 
-![image](https://github.com/javitorres/GenericCross/assets/4235424/aac77d96-3b3f-4bee-9df2-4e29571ec025)
+
+With this application you can visualize your data in a simple way, just by editing a configuration yml:
+
+```
+{
+  "data": "data/iris.csv",
+  "charts": [
+      {
+          "title": "Species",
+          "type": "categorical",
+          "fields": "species"
+      },
+      {
+          "title": "Sepal length",
+          "type": "numerical",
+          "fields": "sepal_length"
+      },
+      {
+          "title": "Petal length",
+          "type": "numerical",
+          "fields": "petal_length"
+      },
+      {
+          "title": "Petal width",
+          "type": "numerical",
+          "fields": "petal_width"
+      },
+      { 
+          "title": "Relation between sepal width, sepal length and petal length",
+          "type": "bubble",
+          "fields": ["sepal_width", "sepal_length", "petal_length"],
+          "maxBubbleSize": 1
+      },
+      { 
+          "title": "Relation between width and length",
+          "type": "scatter",
+          "fields": ["sepal_width", "sepal_length"],
+      }    
+  ]
+}
+```
+Previous configuration generates this dashboard, where you can interact with the data. If you click on a bar, the other charts will be filtered by the selected value. If you click on the reset button, the filters will be removed.
+
+
 
 ![image](https://github.com/javitorres/GenericCross/assets/4235424/e38d0ee4-5af9-4baf-b0fb-7062663b38f5)
 

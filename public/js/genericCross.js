@@ -103,6 +103,37 @@ function generateChart(crossFilterData, chartConfig, index, data) {
                 .x(d3.scaleTime().domain(d3.extent(group.all(), d => d.key)))
                 .elasticY(true);
             break;
+        case 'scatter':
+            if (!Array.isArray(chartConfig.fields)) {
+                console.error("Error: 'fields' should be an array", chartConfig.fields);
+                return;
+            }
+            var dimension = crossFilterData.dimension(d => [d[chartConfig.fields[0]], d[chartConfig.fields[1]]]);
+            var group = dimension.group();
+        
+            var chart = dc.scatterPlot('#' + elementId)
+                .dimension(dimension)
+                .group(group)
+                .x(d3.scaleLinear().domain([0, d3.max(data, d => d[chartConfig.fields[0]])]))
+                .y(d3.scaleLinear().domain([0, d3.max(data, d => d[chartConfig.fields[1]])]))
+                .elasticX(true)
+                .elasticY(true);
+            
+            var resetLink = document.createElement('a');
+            resetLink.className = 'reset-link button is-small';
+            resetLink.innerText = 'Reset';
+            resetLink.href = 'javascript:resetChart("' + elementId + '")';
+            document.getElementById(elementId).appendChild(resetLink);
+        
+            chart.on('renderlet', function(chart) {
+                resetLink.style.display = chart.filters().length > 0 ? 'block' : 'none';
+            });
+        
+            chart.on('filtered', function(chart) {
+                updateFiltersSummary();
+            });
+            
+            break;
         case 'bubble':
             chart = dc.bubbleChart('#' + elementId);
 
@@ -136,9 +167,9 @@ function generateChart(crossFilterData, chartConfig, index, data) {
 
             var maxBubbleSize = d3.max(data, d => d[chartConfig.fields[2]]);
             var minBubbleSize = d3.min(data, d => d[chartConfig.fields[2]]);
-            var bubbleScale = d3.scaleSqrt().domain([minBubbleSize, maxBubbleSize]).range([1, 50]); // Ajusta el rango según sea necesario
-
-
+            var bubbleScale = d3.scaleSqrt().domain([minBubbleSize, maxBubbleSize]).range([0, chartConfig.maxBubbleSize]);
+            console.log('Bubble size range: ' + bubbleScale.range());
+            
             chart
                 .dimension(dimension)
                 .group(group)
@@ -152,7 +183,7 @@ function generateChart(crossFilterData, chartConfig, index, data) {
                 .elasticY(true);
             break;
         default:
-            throw new Error('Tipo no soportado');
+            throw new Error('Type ' + chartConfig.type + ' not supported');
     }
 
     var resetLink = document.createElement('a');
@@ -238,43 +269,6 @@ function createDataTable(crossFilterData, config) {
     return dataTable;
 }
 
-function createRelationChart(relationConfig, crossFilterData, index, data) {
-    if (!Array.isArray(relationConfig.fields)) {
-        console.error("Error: 'fields' should be an array", relationConfig.fields);
-        return;
-    }
-
-    var elementId = createChartContainer(relationConfig.title, relationConfig.fields, index);
-    var dimension = crossFilterData.dimension(d => [d[relationConfig.fields[0]], d[relationConfig.fields[1]]]);
-    var group = dimension.group();
-
-    var chart = dc.scatterPlot('#' + elementId)
-        .dimension(dimension)
-        .group(group)
-        .x(d3.scaleLinear().domain([0, d3.max(data, d => d[relationConfig.fields[0]])]))
-        .y(d3.scaleLinear().domain([0, d3.max(data, d => d[relationConfig.fields[1]])]))
-        .elasticX(true)
-        .elasticY(true);
-    
-    var resetLink = document.createElement('a');
-    resetLink.className = 'reset-link button is-small';
-    resetLink.innerText = 'Reset';
-    resetLink.href = 'javascript:resetChart("' + elementId + '")';
-    document.getElementById(elementId).appendChild(resetLink);
-
-    chart.on('renderlet', function(chart) {
-        resetLink.style.display = chart.filters().length > 0 ? 'block' : 'none';
-    });
-
-    chart.on('filtered', function(chart) {
-        updateFiltersSummary();
-    });
-
-
-    return chart;
-}
-
-
 function initializeDashboard(config) {
     d3.csv(config.data).then((data) => {
         data.forEach(function (d) {
@@ -292,15 +286,6 @@ function initializeDashboard(config) {
         var charts = config.charts.map((chartConfig, index) => {
             return generateChart(crossFilterData, chartConfig, index, data);
         });
-
-        if (config.relations) {
-            config.relations.forEach((relationConfig, index) => {
-                createRelationChart(relationConfig, 
-                    crossFilterData, 
-                    charts.length + index, 
-                    data);
-            });
-        }
 
         var dataTable = createDataTable(crossFilterData, config);
         dc.renderAll();
