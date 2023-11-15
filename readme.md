@@ -59,9 +59,7 @@ With this application you can visualize your data in a simple way, just by editi
 ```
 Previous configuration generates this dashboard, where you can interact with the data. If you click on a bar, the other charts will be filtered by the selected value. If you click on the reset button, the filters will be removed.
 
-
-
-![image](https://github.com/javitorres/GenericCross/assets/4235424/e38d0ee4-5af9-4baf-b0fb-7062663b38f5)
+![image](https://github.com/javitorres/GenericCross/assets/4235424/2472f1f0-1736-487e-8f24-268732d2a241)
 
 
 ## Features
