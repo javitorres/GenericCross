@@ -59,13 +59,11 @@
     </div>
 
     <script>
+        var config = <%- JSON.stringify(config) %>;
         window.onload = function() {
-            var config = JSON.parse(localStorage.getItem('dashboardConfig'));
-            
             if (config) {
                 initializeDashboard(config); 
             }
-
             updateFiltersSummary();
         };
     </script>

@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 // Ruta que maneja la solicitud POST desde index.html
 app.post('/genericCross', (req, res) => {
   const config = req.body.dashboardConfig;
-  console.log("Config: " + config);
+  console.log("Config received in server.js: " + config);
   res.render('genericCross', { config: JSON.parse(config) });
 });
 

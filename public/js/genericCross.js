@@ -94,7 +94,10 @@ function generateChart(crossFilterData, chartConfig, index, data) {
         case 'categorical':
             chart = dc.pieChart('#' + elementId)
                 .dimension(dimension)
-                .group(group);
+                .innerRadius(40)
+                .slicesCap(4)
+                .group(group)
+                .legend(dc.legend().highlightSelected(true));
             break;
         case 'date':
             chart = dc.lineChart('#' + elementId)

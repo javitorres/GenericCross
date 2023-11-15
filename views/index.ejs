@@ -19,6 +19,51 @@
                 <input type="hidden" name="dashboardConfig" id="dashboardConfig" value='' />
                 <button type="button" onclick="submitForm('iris')">Iris report</button>
             </form>
+            <BR><BR>
+            <!-- Custom JSON configuration and JSON editor with send button -->
+            <div>
+                <h3>Or edit Custom JSON Configuration:</h3>
+                <textarea id="jsonConfig" rows="50" cols="60" placeholder='{"data": "path/to/data.csv", "charts": [...]}' >
+                    {
+                        "data": "data/iris.csv",
+                        "charts": [
+                            {
+                                "title": "Species",
+                                "type": "categorical",
+                                "fields": "species"
+                            },
+                            {
+                                "title": "Sepal length",
+                                "type": "numerical",
+                                "fields": "sepal_length"
+                            },
+                            {
+                                "title": "Petal length",
+                                "type": "numerical",
+                                "fields": "petal_length"
+                            },
+                            {
+                                "title": "Petal width",
+                                "type": "numerical",
+                                "fields": "petal_width"
+                            },
+                            { 
+                                "title": "Relation between sepal width, sepal length and petal length",
+                                "type": "bubble",
+                                "fields": ["sepal_width", "sepal_length", "petal_length"],
+                                "maxBubbleSize": 1
+                            },
+                            { 
+                                "title": "Relation between width and length",
+                                "type": "scatter",
+                                "fields": ["sepal_width", "sepal_length"]
+                            }    
+                        ]
+                    }
+
+                </textarea>
+                <button type="button" onclick="submitCustomForm()">Send Custom Configuration</button>
+            </div>
         </div>
     </div>
 
@@ -26,11 +71,6 @@
         function submitForm(reportType) {
             var config = {}; // Objeto de configuración por defecto
             switch (reportType) {
-                case 'cars':
-                    config = {
-                        // ... tu configuración de 'cars' aquí ...
-                    };
-                    break;
                 case 'iris':
                     config = {
                                 "data": "data/iris.csv",
@@ -64,7 +104,7 @@
                                     { 
                                         "title": "Relation between width and length",
                                         "type": "scatter",
-                                        "fields": ["sepal_width", "sepal_length"],
+                                        "fields": ["sepal_width", "sepal_length"]
                                     }    
                                 ]
                             };
@@ -79,6 +119,39 @@
             document.getElementById('dashboardConfig').value = JSON.stringify(config);
             document.getElementById('dashboardForm').submit();
         }
+
+        function submitCustomForm() {
+        var customConfig = document.getElementById('jsonConfig').value;
+        try {
+            var parsedConfig = JSON.parse(customConfig); // Intenta parsear para validar JSON
+            localStorage.setItem('dashboardConfig', JSON.stringify(parsedConfig)); // Guarda en localStorage
+            console.log("Checking config:" + customConfig);
+            JSON.parse(customConfig); // Intenta parsear para validar JSON
+            
+            document.getElementById('dashboardConfig').value = customConfig;
+            document.getElementById('dashboardForm').submit();
+        } catch (e) {
+            alert('Invalid JSON format');
+        }
+
+
+        
+
+    }
+    </script>
+    <script>
+        window.onload = function() {
+            // Recupera la configuración JSON del localStorage si existe
+            var savedConfig = localStorage.getItem('dashboardConfig');
+            
+            // Prettiy print
+            savedConfig = JSON.stringify(JSON.parse(savedConfig), null, 4);
+            if (savedConfig && savedConfig != 'null') {
+                console.log("Saved config:" + savedConfig);
+                document.getElementById('jsonConfig').value = savedConfig;
+            }
+        };
+
     </script>
 </body>
 </html>
