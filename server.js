@@ -1,27 +1,30 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
-const PORT = 3000; // Puedes usar cualquier puerto que esté disponible
+const PORT = 3000;
 
-// Middleware para servir archivos estáticos
-app.use(express.static('public')); // 'public' es el nombre de la carpeta donde tienes tu HTML
+app.use(express.static('public'));
+
+app.set('view engine', 'ejs'); // Establece EJS como motor de plantillas
+app.set('views', path.join(__dirname, 'views')); // Directorio donde estarán tus archivos EJS
+//app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(bodyParser.urlencoded({ extended: true })); // Middleware para parsear cuerpos de solicitud tipo urlencoded
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/index.html')); 
+  res.render('index'); // Renderiza index.ejs
 });
 
-// Receive POST data to /submit
-app.post('/submit', (req, res) => {
-  console.log(req.body);
-  res.sendFile(path.join(__dirname, '/public/index.html')); 
+// Ruta que maneja la solicitud POST desde index.html
+app.post('/genericCross', (req, res) => {
+  const config = req.body.dashboardConfig;
+  console.log("Config: " + config);
+  res.render('genericCross', { config: JSON.parse(config) });
 });
-
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
-
-
-
-

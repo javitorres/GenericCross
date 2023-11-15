@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.min.css">
+</head>
+<body>
+    <nav class="navbar is-primary">
+        <div class="navbar-brand">
+            <h1 class="navbar-item title is-4">Dashboard</h1>
+        </div>
+    </nav>
+
+    <div class="section">
+        <div class="container">
+            <h2>Select a Dashboard:</h2>
+            <form id="dashboardForm" action="/genericCross" method="post">
+                <input type="hidden" name="dashboardConfig" id="dashboardConfig" value='' />
+                <button type="button" onclick="submitForm('iris')">Iris report</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function submitForm(reportType) {
+            var config = {}; // Objeto de configuración por defecto
+            switch (reportType) {
+                case 'cars':
+                    config = {
+                        // ... tu configuración de 'cars' aquí ...
+                    };
+                    break;
+                case 'iris':
+                    config = {
+                                "data": "data/iris.csv",
+                                "charts": [
+                                    {
+                                        "title": "Species",
+                                        "type": "categorical",
+                                        "fields": "species"
+                                    },
+                                    {
+                                        "title": "Sepal length",
+                                        "type": "numerical",
+                                        "fields": "sepal_length"
+                                    },
+                                    {
+                                        "title": "Petal length",
+                                        "type": "numerical",
+                                        "fields": "petal_length"
+                                    },
+                                    {
+                                        "title": "Petal width",
+                                        "type": "numerical",
+                                        "fields": "petal_width"
+                                    },
+                                    { 
+                                        "title": "Relation between sepal width, sepal length and petal length",
+                                        "type": "bubble",
+                                        "fields": ["sepal_width", "sepal_length", "petal_length"],
+                                        "maxBubbleSize": 1
+                                    },
+                                    { 
+                                        "title": "Relation between width and length",
+                                        "type": "scatter",
+                                        "fields": ["sepal_width", "sepal_length"],
+                                    }    
+                                ]
+                            };
+                    break;
+                case 'cat':
+                    config = {
+                        // 
+                    };
+                    break;
+                
+            }
+            document.getElementById('dashboardConfig').value = JSON.stringify(config);
+            document.getElementById('dashboardForm').submit();
+        }
+    </script>
+</body>
+</html>
